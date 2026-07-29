@@ -71,6 +71,29 @@ export default function App() {
     saveStamps(reindexed);
   };
 
+  // Drag & Drop Reorder Handler (Grab & Drop)
+  const handleDropReorder = (draggedId: string, dropTargetId: string) => {
+    if (draggedId === dropTargetId) return;
+
+    const fromIndex = stamps.findIndex((s) => s.id === draggedId);
+    const toIndex = stamps.findIndex((s) => s.id === dropTargetId);
+
+    if (fromIndex === -1 || toIndex === -1) return;
+
+    const newStamps = [...stamps];
+    const [movedItem] = newStamps.splice(fromIndex, 1);
+    newStamps.splice(toIndex, 0, movedItem);
+
+    // Re-index orderIndex
+    const reindexed = newStamps.map((item, idx) => ({
+      ...item,
+      orderIndex: idx,
+    }));
+
+    setStamps(reindexed);
+    saveStamps(reindexed);
+  };
+
   // Add New Stamp
   const handleCreateStamp = (data: Omit<StampItem, 'id' | 'createdAt' | 'orderIndex'>) => {
     const newStamp: StampItem = {
@@ -193,6 +216,21 @@ export default function App() {
                 </div>
               </div>
 
+              {/* Drag and Drop Helper Bar */}
+              <div className="flex items-center justify-between px-3.5 py-2 bg-[#FAF8F5] border border-[#2B2825]/20 rounded-sm text-xs font-serif text-[#5C5650] shadow-2xs">
+                <div className="flex items-center gap-2">
+                  <span className="px-2 py-0.5 bg-[#F2EBD9] border border-[#2B2825]/20 rounded-xs text-[#8C3B2B] font-bold text-[11px]">
+                    ✋ Grab & Drop
+                  </span>
+                  <span>
+                    Arrastra y suelta cualquier estampilla para reordenar tu álbum postal
+                  </span>
+                </div>
+                <span className="text-[11px] italic hidden sm:inline text-[#8C3B2B] font-bold">
+                  {filteredStamps.length} estampillas
+                </span>
+              </div>
+
               {/* Stamp Collection Grid (Stamp Sheet) */}
               {filteredStamps.length > 0 ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 py-4">
@@ -203,6 +241,7 @@ export default function App() {
                       categoryColor={getCategoryColor(stamp.category)}
                       onSelect={(s) => setSelectedStamp(s)}
                       onDownload={(s) => downloadStampPNG(s)}
+                      onDropReorder={handleDropReorder}
                       onMoveLeft={() => handleMoveStamp(idx, 'left')}
                       onMoveRight={() => handleMoveStamp(idx, 'right')}
                       isFirst={idx === 0}

@@ -165,7 +165,7 @@ export async function renderStampToCanvas(
   ctx.clearRect(0, 0, exportWidth, exportHeight);
 
   // 1. Fill base stamp paper background across full surface (with user selected paper color)
-  const paperColor = stamp.frameColor || '#F5F0E6';
+  const paperColor = stamp.frameColor || '#FAF5E8';
   ctx.fillStyle = paperColor;
   ctx.fillRect(0, 0, exportWidth, exportHeight);
 
@@ -225,20 +225,32 @@ export async function renderStampToCanvas(
   ctx.strokeStyle = '#2b2825';
   ctx.strokeRect(marginX, marginY, stampBoxW, stampBoxH);
 
-  // 4. Header Text (Country / Header)
-  const headerHeight = Math.round(exportHeight * 0.08);
-  ctx.fillStyle = '#2b2825';
-  ctx.font = `bold ${Math.round(exportWidth * 0.042)}px "Cormorant Garamond", "Noto Serif", "Playfair Display", serif`;
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  
-  // Use user provided subtitle/kanji if present, otherwise default to Italian Post
+  // 4. Header Bar (Header title on left, category on right)
+  const headerHeight = Math.round(exportHeight * 0.07);
   const headerText = stamp.kanjiTitle && stamp.kanjiTitle.trim() !== '' ? stamp.kanjiTitle : 'POSTE ITALIANE';
-  ctx.fillText(headerText, exportWidth / 2, marginY + headerHeight / 2);
+  
+  ctx.fillStyle = '#8C3B2B';
+  ctx.font = `bold ${Math.round(exportWidth * 0.038)}px "Cormorant Garamond", "Noto Serif", serif`;
+  ctx.textAlign = 'left';
+  ctx.textBaseline = 'middle';
+  ctx.fillText(headerText, marginX + Math.round(stampBoxW * 0.05), marginY + headerHeight / 2);
+
+  ctx.fillStyle = '#5C5650';
+  ctx.font = `italic ${Math.round(exportWidth * 0.032)}px "Cormorant Garamond", serif`;
+  ctx.textAlign = 'right';
+  ctx.fillText(stamp.category || 'General', marginX + stampBoxW - Math.round(stampBoxW * 0.05), marginY + headerHeight / 2);
+
+  // Header separator line
+  ctx.lineWidth = Math.round(exportWidth * 0.002);
+  ctx.strokeStyle = 'rgba(43, 40, 37, 0.2)';
+  ctx.beginPath();
+  ctx.moveTo(marginX + Math.round(stampBoxW * 0.05), marginY + headerHeight);
+  ctx.lineTo(marginX + stampBoxW - Math.round(stampBoxW * 0.05), marginY + headerHeight);
+  ctx.stroke();
 
   // 5. Draw Image Area with Filter
   const imgAreaX = marginX + Math.round(stampBoxW * 0.05);
-  const imgAreaY = marginY + headerHeight + Math.round(stampBoxH * 0.01);
+  const imgAreaY = marginY + headerHeight + Math.round(stampBoxH * 0.02);
   const imgAreaW = stampBoxW - Math.round(stampBoxW * 0.10);
   const imgAreaH = stampBoxH - headerHeight - Math.round(stampBoxH * 0.22);
 
@@ -296,10 +308,10 @@ export async function renderStampToCanvas(
   // 6. Denomination Value & Title Bar
   const footerY = imgAreaY + imgAreaH + Math.round(stampBoxH * 0.03);
   
-  // Denomination (e.g. €0,80) on bottom left (Optional - only render if provided)
+  // Denomination (e.g. €0,80) on bottom left
   if (stamp.denomination && stamp.denomination.trim() !== '') {
     ctx.textAlign = 'left';
-    ctx.fillStyle = '#b43c28'; // Vermilion red
+    ctx.fillStyle = '#8C3B2B'; // Vermilion red
     ctx.font = `bold ${Math.round(exportWidth * 0.065)}px "Cormorant Garamond", "Playfair Display", serif`;
     ctx.fillText(stamp.denomination, imgAreaX, footerY + Math.round(exportHeight * 0.04));
   }
@@ -310,8 +322,8 @@ export async function renderStampToCanvas(
   ctx.font = `600 ${Math.round(exportWidth * 0.035)}px sans-serif`;
   ctx.fillText(stamp.title || 'Recuerdo', imgAreaX + imgAreaW, footerY + Math.round(exportHeight * 0.025));
 
-  ctx.fillStyle = '#666666';
-  ctx.font = `400 ${Math.round(exportWidth * 0.026)}px sans-serif`;
+  ctx.fillStyle = '#5C5650';
+  ctx.font = `400 ${Math.round(exportWidth * 0.026)}px monospace`;
   ctx.fillText(stamp.date || '2026', imgAreaX + imgAreaW, footerY + Math.round(exportHeight * 0.055));
 
   // 7. Rubber Postal Cancellation Ink Stamp Seal
@@ -320,7 +332,7 @@ export async function renderStampToCanvas(
   const sealCenterY = imgAreaY + imgAreaH * 0.85;
 
   ctx.save();
-  ctx.globalAlpha = 0.78;
+  ctx.globalAlpha = 0.82;
   ctx.strokeStyle = '#1e293b'; // Postal indigo ink
   ctx.fillStyle = '#1e293b';
   ctx.lineWidth = Math.round(exportWidth * 0.005);
@@ -357,6 +369,24 @@ export async function renderStampToCanvas(
       sealCenterX - sealRadius * 0.6, waveY + 8,
       sealCenterX - sealRadius * 0.1, waveY
     );
+    ctx.stroke();
+  }
+  ctx.restore();
+
+  // 8. Subtle Paper Grain & Fiber Overlay for authentic analogue feel
+  ctx.save();
+  ctx.globalCompositeOperation = 'multiply';
+  ctx.globalAlpha = 0.035;
+  for (let i = 0; i < 6000; i++) {
+    const fx = Math.random() * exportWidth;
+    const fy = Math.random() * exportHeight;
+    const flen = 2 + Math.random() * 5;
+    const fangle = Math.random() * Math.PI * 2;
+    ctx.strokeStyle = Math.random() > 0.5 ? '#2b2825' : '#8c3b2b';
+    ctx.lineWidth = 0.6;
+    ctx.beginPath();
+    ctx.moveTo(fx, fy);
+    ctx.lineTo(fx + Math.cos(fangle) * flen, fy + Math.sin(fangle) * flen);
     ctx.stroke();
   }
   ctx.restore();
