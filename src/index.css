@@ -1,19 +1,33 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap');
 @import "tailwindcss";
 
 @layer base {
   body {
-    background-color: #0F0F0F;
-    color: #E5E5E5;
+    background-color: #F2EBD9;
+    color: #2B2825;
     font-family: 'Inter', sans-serif;
   }
 
   .font-serif {
     font-family: 'Cormorant Garamond', serif;
   }
+
+  .font-script {
+    font-family: 'Caveat', cursive;
+  }
 }
 
-/* Authentic Postage Stamp Perforated Edges (Recorte Serrado de Estampilla) */
+/* Paper canvas background pattern */
+.bg-paper-canvas {
+  background-color: #F2EBD9;
+  background-image: 
+    radial-gradient(rgba(43, 40, 37, 0.03) 1px, transparent 0),
+    radial-gradient(rgba(43, 40, 37, 0.03) 1px, #F2EBD9 0);
+  background-size: 24px 24px;
+  background-position: 0 0, 12px 12px;
+}
+
+/* Authentic Postage Stamp Perforated Edges */
 .stamp-perforated {
   position: relative;
   -webkit-mask-image: 
@@ -105,6 +119,7 @@
     100% 0;
   mask-composite: intersect;
 }
+
 
 .stamp-perforated-sm {
   position: relative;

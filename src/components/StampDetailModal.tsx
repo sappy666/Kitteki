@@ -79,26 +79,26 @@ export const StampDetailModal: React.FC<StampDetailModalProps> = ({
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-xs overflow-y-auto">
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs overflow-y-auto">
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.95 }}
-          className="relative w-full max-w-3xl bg-[#161616] text-[#E5E5E5] rounded-xl shadow-2xl border border-[#2D2D2D] overflow-hidden my-auto p-6"
+          className="relative w-full max-w-3xl bg-[#FAF5E8] text-[#2B2825] rounded-sm shadow-2xl border-2 border-[#2B2825] overflow-hidden my-auto p-6 sm:p-8"
         >
           {/* Header Bar */}
-          <div className="flex items-center justify-between pb-4 border-b border-[#2D2D2D] mb-6">
-            <div className="flex items-center gap-2">
-              <span className="font-serif font-bold text-lg text-[#E5E5E5]">
+          <div className="flex items-center justify-between pb-4 border-b-2 border-[#2B2825]/15 mb-6">
+            <div className="flex items-center gap-3">
+              <span className="font-serif font-bold text-xl text-[#2B2825]">
                 {stamp.kanjiTitle ? `${stamp.title} • ${stamp.kanjiTitle}` : stamp.title}
               </span>
-              <span className="text-xs px-2 py-0.5 rounded-full bg-[#282828] text-[#888888]">
-                #{stamp.orderIndex + 1}
+              <span className="text-xs font-serif italic text-[#5C5650]">
+                N° {stamp.orderIndex + 1}
               </span>
             </div>
             <button
               onClick={onClose}
-              className="p-1.5 rounded-full hover:bg-[#282828] text-[#888888] hover:text-[#E5E5E5] transition-colors"
+              className="p-1.5 rounded-full hover:bg-[#F2EBD9] text-[#5C5650] hover:text-[#2B2825] transition-colors"
             >
               <X className="w-5 h-5" />
             </button>
@@ -110,24 +110,24 @@ export const StampDetailModal: React.FC<StampDetailModalProps> = ({
             <div className="md:col-span-6 flex flex-col items-center">
               <div
                 style={{
-                  filter: 'drop-shadow(0px 10px 22px rgba(0, 0, 0, 0.5))',
+                  filter: 'drop-shadow(0px 8px 18px rgba(43, 40, 37, 0.2))',
                 }}
               >
                 <div
-                  className="relative p-5 stamp-perforated-lg transition-transform hover:scale-[1.02] text-[#2B2927]"
+                  className="relative p-5 stamp-perforated-lg transition-transform hover:scale-[1.02] text-[#2B2825]"
                   style={{
-                    backgroundColor: stamp.frameColor || '#F5F0E6',
+                    backgroundColor: stamp.frameColor || '#FAF5E8',
                   }}
                 >
-                  <div className="bg-[#FAF8F5] border-2 border-[#2B2927] p-3 w-64 sm:w-72 flex flex-col items-center">
-                  <div className="w-full flex items-center justify-between text-xs text-[#2B2927] mb-1.5 font-serif">
-                    <span className="font-bold text-red-800">
-                      {stamp.kanjiTitle ? `日本郵便 • ${stamp.kanjiTitle}` : 'NIPPON POST'}
+                  <div className="bg-[#FAF8F5] border-2 border-[#2B2825] p-3 w-64 sm:w-72 flex flex-col items-center">
+                  <div className="w-full flex items-center justify-between text-xs text-[#2B2825] mb-1.5 font-serif">
+                    <span className="font-bold text-[#8C3B2B]">
+                      {stamp.kanjiTitle && stamp.kanjiTitle.trim() !== '' ? stamp.kanjiTitle : 'POSTE ITALIANE'}
                     </span>
-                    <span className="font-mono text-xs">{stamp.denomination}</span>
+                    <span className="font-serif italic text-xs">{stamp.category}</span>
                   </div>
 
-                  <div className="relative w-full aspect-[4/5] bg-neutral-200 border border-[#2B2927] overflow-hidden">
+                  <div className="relative w-full aspect-[4/5] bg-neutral-200 border border-[#2B2825] overflow-hidden">
                     <img
                       src={stamp.imageUrl}
                       alt={stamp.title}
@@ -140,22 +140,22 @@ export const StampDetailModal: React.FC<StampDetailModalProps> = ({
                         <circle cx="50" cy="50" r="42" fill="none" stroke="currentColor" strokeWidth="2" />
                         <circle cx="50" cy="50" r="36" fill="none" stroke="currentColor" strokeWidth="1" />
                         <text x="50" y="32" fontSize="8" fontWeight="bold" textAnchor="middle" fill="currentColor">
-                          {(stamp.postmarkCity || 'TOKYO').toUpperCase()}
+                          {(stamp.postmarkCity || 'ROMA').toUpperCase()}
                         </text>
                         <text x="50" y="52" fontSize="7" fontFamily="monospace" textAnchor="middle" fill="currentColor">
                           {stamp.date ? stamp.date.replace(/-/g, '.') : '2026.07.29'}
                         </text>
                         <text x="50" y="68" fontSize="6" fontWeight="bold" textAnchor="middle" fill="currentColor">
-                          • 郵便 •
+                          • POSTE •
                         </text>
                         <path d="M -20 50 Q 0 42 20 50 T 60 50 T 100 50 T 120 50" fill="none" stroke="currentColor" strokeWidth="1.2" opacity="0.75" />
                       </svg>
                     </div>
                   </div>
 
-                  <div className="w-full flex items-center justify-between mt-2 pt-1 border-t border-[#2B2927]/10">
-                    <span className="font-serif font-bold text-lg text-[#C8372D]">{stamp.denomination}</span>
-                    <span className="font-semibold text-xs truncate max-w-[70%] text-right">{stamp.title}</span>
+                  <div className="w-full flex items-center justify-between mt-2 pt-1 border-t border-[#2B2825]/10">
+                    <span className="font-serif font-bold text-lg text-[#8C3B2B]">{stamp.denomination || ''}</span>
+                    <span className="font-semibold text-xs truncate max-w-[70%] text-right text-[#2B2825]">{stamp.title}</span>
                   </div>
                 </div>
               </div>
@@ -166,10 +166,10 @@ export const StampDetailModal: React.FC<StampDetailModalProps> = ({
                 type="button"
                 onClick={handleDownload}
                 disabled={isDownloading}
-                className="mt-6 w-full py-2.5 px-4 bg-[#B43C28] text-white text-xs font-semibold rounded-md hover:bg-red-700 transition-all shadow-sm flex items-center justify-center gap-2"
+                className="mt-6 w-full py-2.5 px-4 bg-[#8C3B2B] text-[#FAF5E8] text-xs font-serif font-bold rounded-sm hover:bg-[#722F22] transition-all shadow-xs flex items-center justify-center gap-2 border border-[#2B2825]"
               >
                 <Download className="w-4 h-4" />
-                {isDownloading ? 'Generando PNG HD...' : 'Descargar Estampilla en Alta Resolución (PNG)'}
+                {isDownloading ? 'Generando PNG HD...' : 'Descargar Estampilla en PNG'}
               </button>
             </div>
 
@@ -177,46 +177,46 @@ export const StampDetailModal: React.FC<StampDetailModalProps> = ({
             <div className="md:col-span-6 flex flex-col justify-between h-full">
               {!isEditing ? (
                 <div className="space-y-4">
-                  <div className="flex items-center justify-between pb-2 border-b border-[#2D2D2D]">
-                    <span className="text-xs font-bold uppercase tracking-wider text-[#888888]">
+                  <div className="flex items-center justify-between pb-2 border-b border-[#2B2825]/20">
+                    <span className="text-xs font-serif font-bold uppercase tracking-wider text-[#5C5650]">
                       Detalles del Recuerdo
                     </span>
                     <button
                       onClick={() => setIsEditing(true)}
-                      className="text-xs font-semibold text-[#B43C28] hover:underline flex items-center gap-1"
+                      className="text-xs font-serif font-bold text-[#8C3B2B] hover:underline flex items-center gap-1"
                     >
                       <Edit3 className="w-3.5 h-3.5" /> Editar
                     </button>
                   </div>
 
-                  <div className="space-y-3 text-sm">
-                    <div className="flex items-center gap-2 text-[#E5E5E5]">
-                      <Tag className="w-4 h-4 text-[#888888]" />
-                      <span className="font-medium text-[#888888]">Categoría:</span>
-                      <span className="bg-[#282828] text-[#E5E5E5] border border-[#333333] text-xs px-2 py-0.5 rounded-full font-medium">
+                  <div className="space-y-3 text-sm font-serif">
+                    <div className="flex items-center gap-2 text-[#2B2825]">
+                      <Tag className="w-4 h-4 text-[#8C3B2B]" />
+                      <span className="font-bold text-[#5C5650]">Categoría:</span>
+                      <span className="text-xs font-semibold italic text-[#2B2825]">
                         {stamp.category}
                       </span>
                     </div>
 
-                    <div className="flex items-center gap-2 text-[#E5E5E5]">
-                      <Calendar className="w-4 h-4 text-[#888888]" />
-                      <span className="font-medium text-[#888888]">Fecha:</span>
-                      <span className="font-mono text-xs">{stamp.date}</span>
+                    <div className="flex items-center gap-2 text-[#2B2825]">
+                      <Calendar className="w-4 h-4 text-[#8C3B2B]" />
+                      <span className="font-bold text-[#5C5650]">Fecha:</span>
+                      <span className="text-xs font-mono">{stamp.date}</span>
                     </div>
 
-                    <div className="flex items-center gap-2 text-[#E5E5E5]">
-                      <MapPin className="w-4 h-4 text-[#888888]" />
-                      <span className="font-medium text-[#888888]">Matasellos:</span>
-                      <span>{stamp.postmarkCity || 'TOKYO'}</span>
+                    <div className="flex items-center gap-2 text-[#2B2825]">
+                      <MapPin className="w-4 h-4 text-[#8C3B2B]" />
+                      <span className="font-bold text-[#5C5650]">Matasellos:</span>
+                      <span>{stamp.postmarkCity || 'ROMA'}</span>
                     </div>
 
                     {stamp.notes && (
-                      <div className="pt-2 border-t border-[#2D2D2D]">
-                        <div className="flex items-center gap-1.5 text-[#888888] text-xs mb-1">
-                          <FileText className="w-3.5 h-3.5" />
-                          <span className="font-medium">Reflexión / Notas:</span>
+                      <div className="pt-2 border-t border-[#2B2825]/15">
+                        <div className="flex items-center gap-1.5 text-[#5C5650] text-xs mb-1.5">
+                          <FileText className="w-3.5 h-3.5 text-[#8C3B2B]" />
+                          <span className="font-bold">Notas de viaje:</span>
                         </div>
-                        <p className="p-3 bg-[#222222] border border-[#333333] rounded-md text-xs italic text-[#E5E5E5] leading-relaxed font-serif">
+                        <p className="p-3.5 bg-[#FAF8F5] border border-[#2B2825]/20 rounded-sm text-sm text-[#2B2825] leading-relaxed font-script italic">
                           "{stamp.notes}"
                         </p>
                       </div>
@@ -225,47 +225,47 @@ export const StampDetailModal: React.FC<StampDetailModalProps> = ({
                 </div>
               ) : (
                 /* Editing Mode */
-                <div className="space-y-3">
-                  <div className="text-xs font-bold uppercase tracking-wider text-[#888888] pb-1 border-b border-[#2D2D2D]">
+                <div className="space-y-3 font-serif">
+                  <div className="text-xs font-bold uppercase tracking-wider text-[#5C5650] pb-1 border-b border-[#2B2825]/20">
                     Editar Estampilla
                   </div>
 
                   <div>
-                    <label className="block text-xs font-medium text-[#A0A0A0] mb-0.5">Título</label>
+                    <label className="block text-xs font-bold text-[#2B2825] mb-0.5">Título</label>
                     <input
                       type="text"
                       value={title}
                       onChange={(e) => setTitle(e.target.value)}
-                      className="w-full px-2.5 py-1.5 text-xs bg-[#222222] border border-[#333333] text-[#E5E5E5] rounded-md"
+                      className="w-full px-2.5 py-1.5 text-xs bg-[#FAF8F5] border border-[#2B2825]/30 text-[#2B2825] rounded-sm focus:outline-none focus:border-[#8C3B2B]"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-xs font-medium text-[#A0A0A0] mb-0.5">Subtítulo Kanji</label>
+                    <label className="block text-xs font-bold text-[#2B2825] mb-0.5">Subtítulo Encabezado</label>
                     <input
                       type="text"
                       value={kanjiTitle}
                       onChange={(e) => setKanjiTitle(e.target.value)}
-                      className="w-full px-2.5 py-1.5 text-xs bg-[#222222] border border-[#333333] text-[#E5E5E5] rounded-md font-serif"
+                      className="w-full px-2.5 py-1.5 text-xs bg-[#FAF8F5] border border-[#2B2825]/30 text-[#2B2825] rounded-sm font-serif focus:outline-none focus:border-[#8C3B2B]"
                     />
                   </div>
 
                   <div className="grid grid-cols-2 gap-2">
                     <div>
-                      <label className="block text-xs font-medium text-[#A0A0A0] mb-0.5">Fecha</label>
+                      <label className="block text-xs font-bold text-[#2B2825] mb-0.5">Fecha</label>
                       <input
                         type="date"
                         value={date}
                         onChange={(e) => setDate(e.target.value)}
-                        className="w-full px-2 py-1 text-xs bg-[#222222] border border-[#333333] text-[#E5E5E5] rounded-md"
+                        className="w-full px-2 py-1 text-xs bg-[#FAF8F5] border border-[#2B2825]/30 text-[#2B2825] rounded-sm focus:outline-none focus:border-[#8C3B2B]"
                       />
                     </div>
                     <div>
-                      <label className="block text-xs font-medium text-[#A0A0A0] mb-0.5">Categoría</label>
+                      <label className="block text-xs font-bold text-[#2B2825] mb-0.5">Categoría</label>
                       <select
                         value={category}
                         onChange={(e) => setCategory(e.target.value)}
-                        className="w-full px-2 py-1 text-xs bg-[#222222] border border-[#333333] text-[#E5E5E5] rounded-md"
+                        className="w-full px-2 py-1 text-xs bg-[#FAF8F5] border border-[#2B2825]/30 text-[#2B2825] rounded-sm focus:outline-none focus:border-[#8C3B2B]"
                       >
                         {categories.map((cat) => (
                           <option key={cat.id} value={cat.name}>
@@ -278,32 +278,32 @@ export const StampDetailModal: React.FC<StampDetailModalProps> = ({
 
                   <div className="grid grid-cols-2 gap-2">
                     <div>
-                      <label className="block text-xs font-medium text-[#A0A0A0] mb-0.5">Valor Facial</label>
+                      <label className="block text-xs font-bold text-[#2B2825] mb-0.5">Precio / Valor</label>
                       <input
                         type="text"
                         value={denomination}
                         onChange={(e) => setDenomination(e.target.value)}
-                        className="w-full px-2 py-1 text-xs bg-[#222222] border border-[#333333] text-[#E5E5E5] rounded-md font-serif"
+                        className="w-full px-2 py-1 text-xs bg-[#FAF8F5] border border-[#2B2825]/30 text-[#2B2825] rounded-sm font-serif focus:outline-none focus:border-[#8C3B2B]"
                       />
                     </div>
                     <div>
-                      <label className="block text-xs font-medium text-[#A0A0A0] mb-0.5">Ciudad Matasellos</label>
+                      <label className="block text-xs font-bold text-[#2B2825] mb-0.5">Ciudad Matasellos</label>
                       <input
                         type="text"
                         value={postmarkCity}
                         onChange={(e) => setPostmarkCity(e.target.value)}
-                        className="w-full px-2 py-1 text-xs bg-[#222222] border border-[#333333] text-[#E5E5E5] rounded-md"
+                        className="w-full px-2 py-1 text-xs bg-[#FAF8F5] border border-[#2B2825]/30 text-[#2B2825] rounded-sm focus:outline-none focus:border-[#8C3B2B]"
                       />
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-xs font-medium text-[#A0A0A0] mb-0.5">Notas</label>
+                    <label className="block text-xs font-bold text-[#2B2825] mb-0.5">Notas</label>
                     <textarea
                       value={notes}
                       onChange={(e) => setNotes(e.target.value)}
                       rows={2}
-                      className="w-full px-2.5 py-1.5 text-xs bg-[#222222] border border-[#333333] text-[#E5E5E5] rounded-md resize-none"
+                      className="w-full px-2.5 py-1.5 text-xs bg-[#FAF8F5] border border-[#2B2825]/30 text-[#2B2825] rounded-sm resize-none focus:outline-none focus:border-[#8C3B2B]"
                     />
                   </div>
 
@@ -311,14 +311,14 @@ export const StampDetailModal: React.FC<StampDetailModalProps> = ({
                     <button
                       type="button"
                       onClick={() => setIsEditing(false)}
-                      className="px-3 py-1.5 text-xs text-[#888888] hover:text-[#E5E5E5]"
+                      className="px-3 py-1.5 text-xs text-[#5C5650] hover:text-[#2B2825]"
                     >
                       Cancelar
                     </button>
                     <button
                       type="button"
                       onClick={handleSaveEdit}
-                      className="px-4 py-1.5 bg-[#B43C28] text-white text-xs font-semibold rounded-md flex items-center gap-1 hover:bg-red-700"
+                      className="px-4 py-1.5 bg-[#8C3B2B] text-[#FAF5E8] text-xs font-bold rounded-sm flex items-center gap-1 hover:bg-[#722F22]"
                     >
                       <Save className="w-3.5 h-3.5" /> Guardar Cambios
                     </button>
@@ -327,7 +327,7 @@ export const StampDetailModal: React.FC<StampDetailModalProps> = ({
               )}
 
               {/* Bottom Delete Action */}
-              <div className="pt-6 border-t border-[#2D2D2D] mt-6 flex items-center justify-between">
+              <div className="pt-6 border-t border-[#2B2825]/15 mt-6 flex items-center justify-between">
                 <button
                   type="button"
                   onClick={() => {
@@ -336,12 +336,12 @@ export const StampDetailModal: React.FC<StampDetailModalProps> = ({
                       onClose();
                     }
                   }}
-                  className="text-xs text-red-400 hover:text-red-300 font-medium flex items-center gap-1"
+                  className="text-xs text-red-700 hover:text-red-900 font-bold flex items-center gap-1 font-serif"
                 >
                   <Trash2 className="w-3.5 h-3.5" /> Eliminar Estampilla
                 </button>
-                <span className="text-[11px] text-[#888888] font-serif">
-                  Kitteki Collection • @sappy.error
+                <span className="text-xs text-[#5C5650] font-script">
+                  Diario Postale • @sappy.error
                 </span>
               </div>
             </div>

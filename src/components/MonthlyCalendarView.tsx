@@ -76,27 +76,24 @@ export const MonthlyCalendarView: React.FC<MonthlyCalendarViewProps> = ({
   };
 
   return (
-    <div className="w-full flex flex-col gap-6">
+    <div className="w-full flex flex-col gap-6 font-serif">
       {/* Month Navigation & Progress Card */}
-      <div className="bg-[#161616] border border-[#2D2D2D] rounded-xl p-5 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="bg-[#FAF5E8] border-2 border-[#2B2825] rounded-sm p-5 shadow-2xs flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div className="flex items-center gap-4">
-          <div className="flex items-center gap-1.5 bg-[#222222] p-1 rounded-lg border border-[#333333]">
+          <div className="flex items-center gap-1.5 bg-[#FAF8F5] p-1 rounded-sm border border-[#2B2825]/30">
             <button
               onClick={handlePrevMonth}
-              className="p-1.5 hover:bg-[#2A2A2A] rounded-md transition-colors text-[#E5E5E5]"
+              className="p-1.5 hover:bg-[#F2EBD9] rounded-sm transition-colors text-[#2B2825]"
               title="Mes Anterior"
             >
               <ChevronLeft className="w-4 h-4" />
             </button>
-            <span className="font-serif font-bold text-base px-3 text-[#E5E5E5]">
+            <span className="font-serif font-bold text-base px-3 text-[#2B2825]">
               {monthNamesSpanish[currentMonth]} {currentYear}
-              <span className="text-xs font-normal text-[#B43C28] ml-2 font-sans">
-                ({monthKanji[currentMonth]})
-              </span>
             </span>
             <button
               onClick={handleNextMonth}
-              className="p-1.5 hover:bg-[#2A2A2A] rounded-md transition-colors text-[#E5E5E5]"
+              className="p-1.5 hover:bg-[#F2EBD9] rounded-sm transition-colors text-[#2B2825]"
               title="Mes Siguiente"
             >
               <ChevronRight className="w-4 h-4" />
@@ -106,18 +103,18 @@ export const MonthlyCalendarView: React.FC<MonthlyCalendarViewProps> = ({
 
         {/* Monthly Completion Progress Bar */}
         <div className="flex-1 max-w-md flex flex-col gap-1.5">
-          <div className="flex items-center justify-between text-xs">
-            <span className="font-semibold text-[#E5E5E5] flex items-center gap-1.5">
-              <Award className="w-3.5 h-3.5 text-[#B43C28]" />
-              Meta Mensual: Llenar el Diario
+          <div className="flex items-center justify-between text-xs font-serif">
+            <span className="font-bold text-[#2B2825] flex items-center gap-1.5">
+              <Award className="w-3.5 h-3.5 text-[#8C3B2B]" />
+              Meta Mensual de Registro
             </span>
-            <span className="font-mono font-bold text-[#B43C28]">
+            <span className="font-mono font-bold text-[#8C3B2B]">
               {activeDaysWithStamps} / {daysInMonth} días ({progressPercent}%)
             </span>
           </div>
-          <div className="w-full h-2 bg-[#282828] rounded-full overflow-hidden">
+          <div className="w-full h-2 bg-[#F2EBD9] rounded-full overflow-hidden border border-[#2B2825]/20">
             <div
-              className="h-full bg-[#B43C28] transition-all duration-500 rounded-full"
+              className="h-full bg-[#8C3B2B] transition-all duration-500 rounded-full"
               style={{ width: `${progressPercent}%` }}
             />
           </div>
@@ -125,11 +122,11 @@ export const MonthlyCalendarView: React.FC<MonthlyCalendarViewProps> = ({
       </div>
 
       {/* Calendar Grid */}
-      <div className="bg-[#161616] border border-[#2D2D2D] rounded-xl p-4 sm:p-6 shadow-xs">
+      <div className="bg-[#FAF5E8] border-2 border-[#2B2825] rounded-sm p-4 sm:p-6 shadow-2xs">
         {/* Days of week header */}
-        <div className="grid grid-cols-7 gap-2 mb-3 text-center border-b border-[#2D2D2D] pb-2">
+        <div className="grid grid-cols-7 gap-2 mb-3 text-center border-b-2 border-[#2B2825]/15 pb-2">
           {['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'].map((day) => (
-            <div key={day} className="text-xs font-semibold text-[#888888] font-serif">
+            <div key={day} className="text-xs font-bold text-[#5C5650] font-serif uppercase tracking-wider">
               {day}
             </div>
           ))}
@@ -139,7 +136,7 @@ export const MonthlyCalendarView: React.FC<MonthlyCalendarViewProps> = ({
         <div className="grid grid-cols-7 gap-2 sm:gap-3">
           {/* Empty offset padding for first day of month */}
           {Array.from({ length: firstDayOfWeek }).map((_, idx) => (
-            <div key={`offset-${idx}`} className="aspect-square bg-transparent rounded-lg opacity-20" />
+            <div key={`offset-${idx}`} className="aspect-square bg-transparent rounded-sm opacity-20" />
           ))}
 
           {/* Days 1 to daysInMonth */}
@@ -155,10 +152,10 @@ export const MonthlyCalendarView: React.FC<MonthlyCalendarViewProps> = ({
             return (
               <div
                 key={dateStr}
-                className={`relative aspect-[3/4] sm:aspect-square rounded-lg border p-1.5 transition-all flex flex-col justify-between ${
+                className={`relative aspect-[3/4] sm:aspect-square rounded-sm border p-1.5 transition-all flex flex-col justify-between ${
                   hasStamp
-                    ? 'border-[#B43C28]/60 bg-[#D9D2C5] text-[#2B2927] shadow-2xs hover:shadow-md cursor-pointer'
-                    : 'border-dashed border-[#333333] bg-[#1E1E1E] hover:bg-[#252525] hover:border-[#555555]'
+                    ? 'border-[#8C3B2B] bg-[#FAF8F5] text-[#2B2825] shadow-2xs hover:scale-[1.02] cursor-pointer'
+                    : 'border-dashed border-[#2B2825]/30 bg-[#FAF8F5]/50 hover:bg-[#FAF8F5] hover:border-[#2B2825]'
                 }`}
                 onClick={() => {
                   if (hasStamp) {
@@ -171,14 +168,14 @@ export const MonthlyCalendarView: React.FC<MonthlyCalendarViewProps> = ({
                 {/* Day Number Header */}
                 <div className="flex items-center justify-between w-full">
                   <span
-                    className={`font-mono text-xs font-bold px-1 rounded-xs ${
-                      hasStamp ? 'bg-[#0F0F0F] text-white' : 'text-[#888888]'
+                    className={`font-mono text-xs font-bold ${
+                      hasStamp ? 'text-[#8C3B2B]' : 'text-[#5C5650]'
                     }`}
                   >
                     {dayNum}
                   </span>
                   {hasStamp && (
-                    <span className="text-[9px] font-serif text-[#B43C28] font-bold">
+                    <span className="text-[10px] font-serif text-[#8C3B2B] font-bold">
                       {dayStamps[0].denomination}
                     </span>
                   )}
@@ -186,15 +183,15 @@ export const MonthlyCalendarView: React.FC<MonthlyCalendarViewProps> = ({
 
                 {/* Day Cell Content */}
                 {hasStamp ? (
-                  <div className="relative w-full flex-1 mt-1 p-1 stamp-perforated-sm bg-[#F5F0E6] group flex items-center justify-center">
-                    <div className="w-full h-full border border-[#2B2927] overflow-hidden relative">
+                  <div className="relative w-full flex-1 mt-1 p-1 stamp-perforated-sm bg-[#FAF5E8] group flex items-center justify-center">
+                    <div className="w-full h-full border border-[#2B2825] overflow-hidden relative">
                       <img
                         src={dayStamps[0].imageUrl}
                         alt={dayStamps[0].title}
                         className="w-full h-full object-cover"
                       />
-                      <div className="absolute inset-0 bg-[#0F0F0F]/65 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                        <span className="text-[10px] text-white font-semibold text-center px-1 truncate">
+                      <div className="absolute inset-0 bg-[#2B2825]/75 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center p-1">
+                        <span className="text-[10px] text-[#FAF5E8] font-bold text-center leading-tight line-clamp-2">
                           {dayStamps[0].title}
                         </span>
                       </div>
@@ -202,8 +199,8 @@ export const MonthlyCalendarView: React.FC<MonthlyCalendarViewProps> = ({
                   </div>
                 ) : (
                   <div className="flex-1 flex flex-col items-center justify-center opacity-40 hover:opacity-100 transition-opacity">
-                    <Plus className="w-4 h-4 text-[#888888]" />
-                    <span className="text-[9px] text-[#888888] hidden sm:inline mt-0.5 font-sans">
+                    <Plus className="w-4 h-4 text-[#5C5650]" />
+                    <span className="text-[9px] text-[#5C5650] hidden sm:inline mt-0.5 font-serif italic">
                       Añadir
                     </span>
                   </div>

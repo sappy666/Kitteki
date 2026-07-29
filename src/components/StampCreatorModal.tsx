@@ -10,22 +10,22 @@ interface StampCreatorModalProps {
   categories: Category[];
 }
 
-const FILTER_OPTIONS: { id: FilterStyle; label: string; kanji: string; desc: string }[] = [
-  { id: 'sepia', label: 'Vintage Sepia', kanji: 'セピア', desc: 'Tono cálido envejecido' },
-  { id: 'halftone', label: 'Showa Dither', kanji: '網点', desc: 'Puntos de imprenta postal' },
-  { id: 'ukiyoe', label: 'Ukiyo-e Wood', kanji: '浮世絵', desc: 'Saturación y grabado' },
-  { id: 'risograph', label: 'Risograph Ink', kanji: '孔版画', desc: 'Tinta bicolor bermellón/índigo' },
-  { id: 'monochrome', label: 'Tinta Sumi-e', kanji: '墨絵', desc: 'Trazos en tinta negra' },
-  { id: 'watercolor', label: 'Acuarela', kanji: '水彩', desc: 'Resplandor suave y difuminado' },
-  { id: 'retroGrain', label: 'Grano 35mm', kanji: '粒状', desc: 'Textura analógica vintage' },
+const FILTER_OPTIONS: { id: FilterStyle; label: string; desc: string }[] = [
+  { id: 'sepia', label: 'Vintage Sepia', desc: 'Tono cálido envejecido' },
+  { id: 'halftone', label: 'Puntos Halftone', desc: 'Textura imprenta postal' },
+  { id: 'ukiyoe', label: 'Grabado Ilustrado', desc: 'Saturación y contraste' },
+  { id: 'risograph', label: 'Tinta Risograph', desc: 'Doble tinta carmesí e índigo' },
+  { id: 'monochrome', label: 'Tinta Monocroma', desc: 'Borde en tinta oscura' },
+  { id: 'watercolor', label: 'Acuarela Suave', desc: 'Luz difuminada y suave' },
+  { id: 'retroGrain', label: 'Grano 35mm', desc: 'Textura analógica vintage' },
 ];
 
 const FRAME_COLORS = [
-  { hex: '#F5F0E6', label: 'Washi Blanco' },
-  { hex: '#EAE5D9', label: 'Pergamino' },
-  { hex: '#F2E2CE', label: 'Té Matcha Suave' },
-  { hex: '#E65243', label: 'Rojo Carmesí' },
-  { hex: '#2C3E55', label: 'Azul Índigo' },
+  { hex: '#F5F0E6', label: 'Carta d\'Epoca' },
+  { hex: '#FAF5E8', label: 'Pergamena' },
+  { hex: '#E5B20D', label: 'Giallo Poste' },
+  { hex: '#C8372D', label: 'Rosso Corrente' },
+  { hex: '#1E293B', label: 'Blu Poste' },
 ];
 
 export const StampCreatorModal: React.FC<StampCreatorModalProps> = ({
@@ -40,8 +40,8 @@ export const StampCreatorModal: React.FC<StampCreatorModalProps> = ({
   const [date, setDate] = useState<string>(new Date().toISOString().split('T')[0]);
   const [category, setCategory] = useState<string>(categories[0]?.name || 'Viajes');
   const [filterStyle, setFilterStyle] = useState<FilterStyle>('sepia');
-  const [denomination, setDenomination] = useState<string>('¥80');
-  const [postmarkCity, setPostmarkCity] = useState<string>('TOKYO');
+  const [denomination, setDenomination] = useState<string>('');
+  const [postmarkCity, setPostmarkCity] = useState<string>('ROMA');
   const [frameColor, setFrameColor] = useState<string>('#F5F0E6');
   const [notes, setNotes] = useState<string>('');
   
@@ -131,13 +131,13 @@ export const StampCreatorModal: React.FC<StampCreatorModalProps> = ({
 
     onSave({
       title: title || 'Mi Estampilla',
-      kanjiTitle: kanjiTitle || '記憶',
+      kanjiTitle: kanjiTitle || '',
       date: date || new Date().toISOString().split('T')[0],
       category: category || categories[0]?.name || 'General',
       imageUrl,
       filterStyle,
-      denomination: denomination || '¥80',
-      postmarkCity: postmarkCity || 'TOKYO',
+      denomination: denomination || '',
+      postmarkCity: postmarkCity || 'ROMA',
       postmarkStyle: 'classic',
       frameColor,
       notes,
@@ -148,26 +148,26 @@ export const StampCreatorModal: React.FC<StampCreatorModalProps> = ({
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 overflow-y-auto bg-black/75 backdrop-blur-xs">
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 overflow-y-auto bg-black/60 backdrop-blur-xs">
         <motion.div
           initial={{ opacity: 0, scale: 0.95, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 20 }}
-          className="relative w-full max-w-4xl bg-[#161616] text-[#E5E5E5] rounded-xl shadow-2xl border border-[#2D2D2D] overflow-hidden my-auto max-h-[92vh] flex flex-col"
+          className="relative w-full max-w-4xl bg-[#FAF5E8] text-[#2B2825] rounded-sm shadow-2xl border-2 border-[#2B2825] overflow-hidden my-auto max-h-[92vh] flex flex-col font-serif"
         >
           {/* Modal Header */}
-          <div className="flex items-center justify-between px-6 py-4 border-b border-[#2D2D2D] bg-[#121212]">
+          <div className="flex items-center justify-between px-6 py-4 border-b-2 border-[#2B2825]/15 bg-[#FAF5E8]">
             <div>
-              <h2 className="text-lg font-serif font-bold text-[#E5E5E5] flex items-center gap-2">
-                <span>新しい切手</span>
-                <span className="text-xs font-normal text-[#888888] font-sans">
-                  • Convertir Foto en Estampilla Digital
+              <h2 className="text-xl font-serif font-bold text-[#2B2825] flex items-center gap-2">
+                <span>Crear Estampilla</span>
+                <span className="text-xs font-script font-normal text-[#8C3B2B]">
+                  • Poste Italiane
                 </span>
               </h2>
             </div>
             <button
               onClick={onClose}
-              className="p-1.5 rounded-full hover:bg-[#282828] text-[#888888] hover:text-[#E5E5E5] transition-colors"
+              className="p-1.5 rounded-full hover:bg-[#F2EBD9] text-[#5C5650] hover:text-[#2B2825] transition-colors"
             >
               <X className="w-5 h-5" />
             </button>
@@ -178,7 +178,7 @@ export const StampCreatorModal: React.FC<StampCreatorModalProps> = ({
             
             {/* Left Column: Image Upload & Stamp Live Preview */}
             <div className="md:col-span-5 flex flex-col items-center gap-4">
-              <label className="text-xs font-bold uppercase tracking-wider text-[#888888] self-start">
+              <label className="text-xs font-bold uppercase tracking-wider text-[#5C5650] self-start">
                 1. Seleccionar Foto
               </label>
 
@@ -188,20 +188,20 @@ export const StampCreatorModal: React.FC<StampCreatorModalProps> = ({
                   onDragLeave={() => setDragActive(false)}
                   onDrop={handleDrop}
                   onClick={() => fileInputRef.current?.click()}
-                  className={`w-full aspect-[4/5] border-2 border-dashed rounded-lg p-6 flex flex-col items-center justify-center gap-3 cursor-pointer transition-all ${
+                  className={`w-full aspect-[4/5] border-2 border-dashed rounded-sm p-6 flex flex-col items-center justify-center gap-3 cursor-pointer transition-all ${
                     dragActive
-                      ? 'border-[#B43C28] bg-red-950/30 scale-[0.99]'
-                      : 'border-[#333333] hover:border-[#555555] bg-[#222222]'
+                      ? 'border-[#8C3B2B] bg-[#F2EBD9] scale-[0.99]'
+                      : 'border-[#2B2825]/30 hover:border-[#2B2825] bg-[#FAF8F5]'
                   }`}
                 >
-                  <div className="p-3 bg-[#161616] rounded-full shadow-xs text-[#B43C28] border border-[#333333]">
+                  <div className="p-3 bg-[#FAF5E8] rounded-full shadow-2xs text-[#8C3B2B] border border-[#2B2825]/20">
                     <Upload className="w-6 h-6" />
                   </div>
                   <div className="text-center">
-                    <p className="text-sm font-semibold text-[#E5E5E5]">
+                    <p className="text-sm font-bold text-[#2B2825]">
                       Arrastra tu foto aquí o haz clic
                     </p>
-                    <p className="text-xs text-[#888888] mt-1">
+                    <p className="text-xs text-[#5C5650] mt-1 italic">
                       JPG, PNG, WebP de tus recuerdos diarios
                     </p>
                   </div>
@@ -211,7 +211,7 @@ export const StampCreatorModal: React.FC<StampCreatorModalProps> = ({
                       e.stopPropagation();
                       handleUseSample();
                     }}
-                    className="mt-2 text-xs text-[#B43C28] underline font-medium hover:text-red-400"
+                    className="mt-2 text-xs text-[#8C3B2B] underline font-bold hover:text-[#722F22]"
                   >
                     ¿Probar con foto de ejemplo?
                   </button>
@@ -219,40 +219,64 @@ export const StampCreatorModal: React.FC<StampCreatorModalProps> = ({
               ) : (
                 <div className="relative flex flex-col items-center group w-full">
                   {/* Live Stamp Preview Card */}
-                  <div style={{ filter: 'drop-shadow(0px 6px 14px rgba(0, 0, 0, 0.45))' }}>
+                  <div style={{ filter: 'drop-shadow(0px 6px 14px rgba(43, 40, 37, 0.2))' }}>
                     <div
                       className="p-3.5 stamp-perforated text-[#2B2927]"
                       style={{ backgroundColor: frameColor }}
                     >
                       <div className="bg-[#FAF8F5] border-2 border-[#2B2927] p-2.5 w-48 sm:w-56 flex flex-col items-center">
                       <div className="w-full flex items-center justify-between text-[10px] text-[#2B2927] mb-1 font-serif">
-                        <span className="font-bold text-red-800">
-                          {kanjiTitle ? `日本郵便 • ${kanjiTitle}` : 'NIPPON POST'}
+                        <span className="font-bold text-[#8C3B2B]">
+                          {kanjiTitle && kanjiTitle.trim() !== '' ? kanjiTitle : 'POSTE ITALIANE'}
                         </span>
-                        <span className="font-mono text-[9px]">{denomination}</span>
+                        <span className="font-serif italic text-[10px]">{category}</span>
                       </div>
                       <div className="relative w-full aspect-[4/5] bg-neutral-200 border border-[#2B2927] overflow-hidden">
                         <img
                           src={imageUrl}
                           alt="Preview"
-                          className="w-full h-full object-cover"
+                          className="w-full h-full object-cover transition-all duration-300"
                           style={{
                             filter:
                               filterStyle === 'sepia'
-                                ? 'sepia(0.8) contrast(1.1)'
+                                ? 'sepia(0.85) contrast(1.1) brightness(0.95)'
                                 : filterStyle === 'monochrome'
-                                ? 'grayscale(1) contrast(1.3)'
+                                ? 'grayscale(1) contrast(1.35) brightness(0.9)'
                                 : filterStyle === 'risograph'
-                                ? 'contrast(1.3) saturate(1.8)'
+                                ? 'contrast(1.4) saturate(2.2) hue-rotate(-15deg)'
                                 : filterStyle === 'ukiyoe'
-                                ? 'saturate(2) contrast(1.2)'
+                                ? 'saturate(2.2) contrast(1.25) brightness(0.95)'
+                                : filterStyle === 'halftone'
+                                ? 'contrast(1.5) grayscale(0.7) brightness(1.05)'
+                                : filterStyle === 'watercolor'
+                                ? 'saturate(1.2) contrast(0.95) brightness(1.05)'
+                                : filterStyle === 'retroGrain'
+                                ? 'sepia(0.35) contrast(1.15) brightness(0.92)'
                                 : 'none',
                           }}
                         />
+
+                        {/* Postal Stamp Cancellation Mark */}
+                        <div className="absolute -bottom-2 -right-2 w-16 h-16 pointer-events-none opacity-80 rotate-[-10deg]">
+                          <svg viewBox="0 0 100 100" className="w-full h-full text-[#1E293B]">
+                            <circle cx="50" cy="50" r="42" fill="none" stroke="currentColor" strokeWidth="2" />
+                            <circle cx="50" cy="50" r="36" fill="none" stroke="currentColor" strokeWidth="1" />
+                            <text x="50" y="32" fontSize="8" fontWeight="bold" textAnchor="middle" fill="currentColor">
+                              {(postmarkCity || 'ROMA').toUpperCase()}
+                            </text>
+                            <text x="50" y="52" fontSize="7" fontFamily="monospace" textAnchor="middle" fill="currentColor">
+                              {date ? date.replace(/-/g, '.') : '2026.07.29'}
+                            </text>
+                            <text x="50" y="68" fontSize="6" fontWeight="bold" textAnchor="middle" fill="currentColor">
+                              • POSTE •
+                            </text>
+                            <path d="M -20 50 Q 0 42 20 50 T 60 50 T 100 50 T 120 50" fill="none" stroke="currentColor" strokeWidth="1.2" opacity="0.75" />
+                          </svg>
+                        </div>
                       </div>
                       <div className="w-full flex items-center justify-between mt-1.5 text-xs">
-                        <span className="font-serif font-bold text-[#C8372D]">{denomination}</span>
-                        <span className="font-semibold text-[11px] truncate">{title || 'Título'}</span>
+                        <span className="font-serif font-bold text-[#8C3B2B]">{denomination || ''}</span>
+                        <span className="font-semibold text-[11px] truncate text-[#2B2825]">{title || 'Título'}</span>
                       </div>
                     </div>
                   </div>
@@ -261,7 +285,7 @@ export const StampCreatorModal: React.FC<StampCreatorModalProps> = ({
                   <button
                     type="button"
                     onClick={() => setImageUrl('')}
-                    className="mt-3 text-xs text-[#888888] hover:text-[#E5E5E5] underline font-medium flex items-center gap-1"
+                    className="mt-3 text-xs text-[#5C5650] hover:text-[#2B2825] underline font-bold flex items-center gap-1"
                   >
                     <RefreshCw className="w-3.5 h-3.5" /> Cambiar foto
                   </button>
@@ -276,51 +300,51 @@ export const StampCreatorModal: React.FC<StampCreatorModalProps> = ({
                 className="hidden"
               />
 
-              {/* Gemini AI Auto-Fill button */}
+              {/* Vintage Auto-Fill button */}
               {imageUrl && (
                 <button
                   type="button"
                   onClick={handleAiAutoFill}
                   disabled={isAiLoading}
-                  className="w-full py-2.5 px-4 bg-[#222222] text-[#E5E5E5] border border-[#333333] text-xs font-semibold rounded-md hover:bg-[#2A2A2A] transition-all flex items-center justify-center gap-2 shadow-xs disabled:opacity-50"
+                  className="w-full py-2.5 px-4 bg-[#FAF8F5] text-[#2B2825] border border-[#2B2825]/30 text-xs font-bold rounded-sm hover:bg-[#F2EBD9] transition-all flex items-center justify-center gap-2 shadow-2xs disabled:opacity-50"
                 >
-                  <Sparkles className="w-4 h-4 text-amber-400 animate-pulse" />
-                  {isAiLoading ? 'Generando Metadatos AI...' : 'Asistente AI (Autocompletar Estampilla)'}
+                  <Sparkles className="w-4 h-4 text-[#8C3B2B]" />
+                  {isAiLoading ? 'Sugeriendo Detalles...' : 'Autocompletar Detalles con IA'}
                 </button>
               )}
             </div>
 
             {/* Right Column: Customization Controls */}
             <div className="md:col-span-7 flex flex-col gap-5">
-              <label className="text-xs font-bold uppercase tracking-wider text-[#888888]">
+              <label className="text-xs font-bold uppercase tracking-wider text-[#5C5650]">
                 2. Personalizar Estampilla Vintage
               </label>
 
-              {/* Title & Kanji */}
+              {/* Title & Subtitle */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-semibold text-[#A0A0A0] mb-1">
+                  <label className="block text-xs font-bold text-[#2B2825] mb-1">
                     Título de la Memoria
                   </label>
                   <input
                     type="text"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
-                    placeholder="ej. Café al Atardecer"
+                    placeholder="ej. Vista desde el Duomo"
                     required
-                    className="w-full px-3 py-2 text-sm bg-[#222222] border border-[#333333] text-[#E5E5E5] placeholder-[#666666] rounded-md focus:ring-1 focus:ring-[#B43C28] focus:outline-none"
+                    className="w-full px-3 py-2 text-sm bg-[#FAF8F5] border border-[#2B2825]/30 text-[#2B2825] placeholder-[#888888] rounded-sm focus:outline-none focus:border-[#8C3B2B]"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold text-[#A0A0A0] mb-1">
-                    Kanji / Subtítulo Japonés (Opcional)
+                  <label className="block text-xs font-bold text-[#2B2825] mb-1">
+                    Subtítulo Encabezado (Opcional)
                   </label>
                   <input
                     type="text"
                     value={kanjiTitle}
                     onChange={(e) => setKanjiTitle(e.target.value)}
-                    placeholder="ej. 夕日"
-                    className="w-full px-3 py-2 text-sm bg-[#222222] border border-[#333333] text-[#E5E5E5] placeholder-[#666666] rounded-md focus:ring-1 focus:ring-[#B43C28] focus:outline-none font-serif"
+                    placeholder="ej. ROMA POSTE"
+                    className="w-full px-3 py-2 text-sm bg-[#FAF8F5] border border-[#2B2825]/30 text-[#2B2825] placeholder-[#888888] rounded-sm focus:outline-none focus:border-[#8C3B2B] font-serif"
                   />
                 </div>
               </div>
@@ -328,7 +352,7 @@ export const StampCreatorModal: React.FC<StampCreatorModalProps> = ({
               {/* Date, Category & Denomination */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 <div>
-                  <label className="block text-xs font-semibold text-[#A0A0A0] mb-1">
+                  <label className="block text-xs font-bold text-[#2B2825] mb-1">
                     Fecha del Recuerdo
                   </label>
                   <input
@@ -336,45 +360,45 @@ export const StampCreatorModal: React.FC<StampCreatorModalProps> = ({
                     value={date}
                     onChange={(e) => setDate(e.target.value)}
                     required
-                    className="w-full px-2.5 py-2 text-sm bg-[#222222] border border-[#333333] text-[#E5E5E5] rounded-md focus:ring-1 focus:ring-[#B43C28] focus:outline-none"
+                    className="w-full px-2.5 py-2 text-sm bg-[#FAF8F5] border border-[#2B2825]/30 text-[#2B2825] rounded-sm focus:outline-none focus:border-[#8C3B2B]"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-[#A0A0A0] mb-1">
+                  <label className="block text-xs font-bold text-[#2B2825] mb-1">
                     Categoría
                   </label>
                   <select
                     value={category}
                     onChange={(e) => setCategory(e.target.value)}
-                    className="w-full px-2.5 py-2 text-sm bg-[#222222] border border-[#333333] text-[#E5E5E5] rounded-md focus:ring-1 focus:ring-[#B43C28] focus:outline-none"
+                    className="w-full px-2.5 py-2 text-sm bg-[#FAF8F5] border border-[#2B2825]/30 text-[#2B2825] rounded-sm focus:outline-none focus:border-[#8C3B2B]"
                   >
                     {categories.map((cat) => (
                       <option key={cat.id} value={cat.name}>
-                        {cat.name} {cat.kanjiName ? `(${cat.kanjiName})` : ''}
+                        {cat.name}
                       </option>
                     ))}
                   </select>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-[#A0A0A0] mb-1">
-                    Valor / Valor Facial
+                  <label className="block text-xs font-bold text-[#2B2825] mb-1">
+                    Precio / Valor (Opcional)
                   </label>
                   <input
                     type="text"
                     value={denomination}
                     onChange={(e) => setDenomination(e.target.value)}
-                    placeholder="¥80"
-                    className="w-full px-2.5 py-2 text-sm bg-[#222222] border border-[#333333] text-[#E5E5E5] placeholder-[#666666] rounded-md focus:ring-1 focus:ring-[#B43C28] focus:outline-none font-serif"
+                    placeholder="ej. €0,80"
+                    className="w-full px-2.5 py-2 text-sm bg-[#FAF8F5] border border-[#2B2825]/30 text-[#2B2825] placeholder-[#888888] rounded-sm focus:outline-none focus:border-[#8C3B2B] font-serif"
                   />
                 </div>
               </div>
 
               {/* Artistic Filter Selector */}
               <div>
-                <label className="block text-xs font-semibold text-[#A0A0A0] mb-2">
-                  Filtro Artístico Retro
+                <label className="block text-xs font-bold text-[#2B2825] mb-2">
+                  Filtro Artístico Retro (Vista Previa en Vivo)
                 </label>
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                   {FILTER_OPTIONS.map((f) => (
@@ -382,17 +406,14 @@ export const StampCreatorModal: React.FC<StampCreatorModalProps> = ({
                       key={f.id}
                       type="button"
                       onClick={() => setFilterStyle(f.id)}
-                      className={`p-2 rounded-md border text-left transition-all flex flex-col justify-between ${
+                      className={`p-2 rounded-sm border text-left transition-all flex flex-col justify-between ${
                         filterStyle === f.id
-                          ? 'border-[#B43C28] bg-[#221A18] shadow-xs'
-                          : 'border-[#333333] bg-[#222222] hover:bg-[#2A2A2A]'
+                          ? 'border-[#8C3B2B] bg-[#F2EBD9] shadow-2xs font-bold'
+                          : 'border-[#2B2825]/20 bg-[#FAF8F5] hover:bg-[#F2EBD9]'
                       }`}
                     >
-                      <div className="flex items-center justify-between w-full">
-                        <span className="text-xs font-semibold text-[#E5E5E5]">{f.label}</span>
-                        <span className="text-[10px] font-serif text-[#B43C28]">{f.kanji}</span>
-                      </div>
-                      <span className="text-[10px] text-[#888888] mt-1 truncate">{f.desc}</span>
+                      <span className="text-xs text-[#2B2825]">{f.label}</span>
+                      <span className="text-[10px] text-[#5C5650] italic mt-1 truncate">{f.desc}</span>
                     </button>
                   ))}
                 </div>
@@ -401,7 +422,7 @@ export const StampCreatorModal: React.FC<StampCreatorModalProps> = ({
               {/* Frame Color & Postmark City */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-semibold text-[#A0A0A0] mb-1.5">
+                  <label className="block text-xs font-bold text-[#2B2825] mb-1.5">
                     Color de Papel de Marco
                   </label>
                   <div className="flex items-center gap-2">
@@ -410,8 +431,8 @@ export const StampCreatorModal: React.FC<StampCreatorModalProps> = ({
                         key={col.hex}
                         type="button"
                         onClick={() => setFrameColor(col.hex)}
-                        className={`w-7 h-7 rounded-full border border-[#444444] transition-transform flex items-center justify-center ${
-                          frameColor === col.hex ? 'scale-110 ring-2 ring-[#B43C28]' : 'hover:scale-105'
+                        className={`w-7 h-7 rounded-full border border-[#2B2825]/30 transition-transform flex items-center justify-center ${
+                          frameColor === col.hex ? 'scale-110 ring-2 ring-[#8C3B2B]' : 'hover:scale-105'
                         }`}
                         style={{ backgroundColor: col.hex }}
                         title={col.label}
@@ -423,22 +444,22 @@ export const StampCreatorModal: React.FC<StampCreatorModalProps> = ({
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-[#A0A0A0] mb-1">
+                  <label className="block text-xs font-bold text-[#2B2825] mb-1">
                     Ciudad del Matasellos
                   </label>
                   <input
                     type="text"
                     value={postmarkCity}
                     onChange={(e) => setPostmarkCity(e.target.value)}
-                    placeholder="TOKYO, KYOTO, SANTIAGO"
-                    className="w-full px-3 py-1.5 text-sm bg-[#222222] border border-[#333333] text-[#E5E5E5] placeholder-[#666666] rounded-md focus:ring-1 focus:ring-[#B43C28] focus:outline-none"
+                    placeholder="ROMA, KYOTO, SANTIAGO"
+                    className="w-full px-3 py-1.5 text-sm bg-[#FAF8F5] border border-[#2B2825]/30 text-[#2B2825] placeholder-[#888888] rounded-sm focus:outline-none focus:border-[#8C3B2B]"
                   />
                 </div>
               </div>
 
               {/* Memory Notes */}
               <div>
-                <label className="block text-xs font-semibold text-[#A0A0A0] mb-1">
+                <label className="block text-xs font-bold text-[#2B2825] mb-1">
                   Notas de la Memoria / Reflexión (Opcional)
                 </label>
                 <textarea
@@ -446,23 +467,23 @@ export const StampCreatorModal: React.FC<StampCreatorModalProps> = ({
                   onChange={(e) => setNotes(e.target.value)}
                   rows={2}
                   placeholder="Escribe un pequeño pensamiento sobre este día..."
-                  className="w-full px-3 py-2 text-sm bg-[#222222] border border-[#333333] text-[#E5E5E5] placeholder-[#666666] rounded-md focus:ring-1 focus:ring-[#B43C28] focus:outline-none resize-none"
+                  className="w-full px-3 py-2 text-sm bg-[#FAF8F5] border border-[#2B2825]/30 text-[#2B2825] placeholder-[#888888] rounded-sm focus:outline-none focus:border-[#8C3B2B] resize-none"
                 />
               </div>
 
               {/* Submit Buttons */}
-              <div className="mt-2 flex items-center justify-end gap-3 pt-3 border-t border-[#2D2D2D]">
+              <div className="mt-2 flex items-center justify-end gap-3 pt-3 border-t border-[#2B2825]/15">
                 <button
                   type="button"
                   onClick={onClose}
-                  className="px-4 py-2 text-xs font-medium text-[#888888] hover:text-[#E5E5E5] transition-colors"
+                  className="px-4 py-2 text-xs font-bold text-[#5C5650] hover:text-[#2B2825] transition-colors"
                 >
                   Cancelar
                 </button>
                 <button
                   type="submit"
                   disabled={!imageUrl}
-                  className="px-6 py-2 bg-[#B43C28] text-white text-xs font-semibold rounded-md hover:bg-red-700 transition-all shadow-sm disabled:opacity-50"
+                  className="px-6 py-2 bg-[#8C3B2B] text-[#FAF5E8] text-xs font-bold rounded-sm hover:bg-[#722F22] transition-all border border-[#2B2825] shadow-xs disabled:opacity-50"
                 >
                   Guardar Estampilla en Álbum
                 </button>

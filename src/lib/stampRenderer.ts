@@ -232,7 +232,8 @@ export async function renderStampToCanvas(
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
   
-  const headerText = stamp.kanjiTitle ? `日本郵便 • ${stamp.kanjiTitle}` : 'NIPPON POST • 日本郵便';
+  // Use user provided subtitle/kanji if present, otherwise default to Italian Post
+  const headerText = stamp.kanjiTitle && stamp.kanjiTitle.trim() !== '' ? stamp.kanjiTitle : 'POSTE ITALIANE';
   ctx.fillText(headerText, exportWidth / 2, marginY + headerHeight / 2);
 
   // 5. Draw Image Area with Filter
@@ -295,11 +296,13 @@ export async function renderStampToCanvas(
   // 6. Denomination Value & Title Bar
   const footerY = imgAreaY + imgAreaH + Math.round(stampBoxH * 0.03);
   
-  // Denomination (e.g. ¥80) on bottom left
-  ctx.textAlign = 'left';
-  ctx.fillStyle = '#b43c28'; // Japanese vermilion red
-  ctx.font = `bold ${Math.round(exportWidth * 0.065)}px "Cormorant Garamond", "Playfair Display", serif`;
-  ctx.fillText(stamp.denomination || '¥80', imgAreaX, footerY + Math.round(exportHeight * 0.04));
+  // Denomination (e.g. €0,80) on bottom left (Optional - only render if provided)
+  if (stamp.denomination && stamp.denomination.trim() !== '') {
+    ctx.textAlign = 'left';
+    ctx.fillStyle = '#b43c28'; // Vermilion red
+    ctx.font = `bold ${Math.round(exportWidth * 0.065)}px "Cormorant Garamond", "Playfair Display", serif`;
+    ctx.fillText(stamp.denomination, imgAreaX, footerY + Math.round(exportHeight * 0.04));
+  }
 
   // Stamp Title on bottom right
   ctx.textAlign = 'right';
@@ -335,13 +338,13 @@ export async function renderStampToCanvas(
   // Seal Text (City & Date)
   ctx.textAlign = 'center';
   ctx.font = `bold ${Math.round(exportWidth * 0.024)}px sans-serif`;
-  ctx.fillText((stamp.postmarkCity || 'TOKYO').toUpperCase(), sealCenterX, sealCenterY - sealRadius * 0.3);
+  ctx.fillText((stamp.postmarkCity || 'ROMA').toUpperCase(), sealCenterX, sealCenterY - sealRadius * 0.3);
 
   ctx.font = `500 ${Math.round(exportWidth * 0.022)}px monospace`;
   ctx.fillText(stamp.date ? stamp.date.replace(/-/g, '.') : '2026.07.29', sealCenterX, sealCenterY + sealRadius * 0.1);
 
   ctx.font = `bold ${Math.round(exportWidth * 0.020)}px sans-serif`;
-  ctx.fillText('• 郵便 •', sealCenterX, sealCenterY + sealRadius * 0.45);
+  ctx.fillText('• POSTE •', sealCenterX, sealCenterY + sealRadius * 0.45);
 
   // Postal Wave Lines
   ctx.lineWidth = Math.round(exportWidth * 0.003);
@@ -357,12 +360,6 @@ export async function renderStampToCanvas(
     ctx.stroke();
   }
   ctx.restore();
-
-  // 8. Footer Credit Signature requirement: @sappy.error
-  ctx.fillStyle = '#888888';
-  ctx.font = `italic ${Math.round(exportWidth * 0.022)}px sans-serif`;
-  ctx.textAlign = 'center';
-  ctx.fillText('curated by @sappy.error', exportWidth / 2, exportHeight - Math.round(marginY * 0.35));
 
   return canvas;
 }

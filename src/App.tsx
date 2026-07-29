@@ -124,16 +124,16 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#0F0F0F] text-[#E5E5E5] font-sans antialiased selection:bg-[#B43C28] selection:text-white">
-      {/* Background Grid Pattern (Dark Stamp Album Sheet) */}
+    <div className="min-h-screen flex flex-col bg-paper-canvas text-[#2B2825] font-sans antialiased selection:bg-[#8C3B2B] selection:text-white">
+      {/* Background Soft Paper Grid Pattern */}
       <div
-        className="fixed inset-0 pointer-events-none opacity-20 z-0"
+        className="fixed inset-0 pointer-events-none opacity-25 z-0"
         style={{
           backgroundImage: `
-            linear-gradient(to right, rgba(255, 255, 255, 0.08) 1px, transparent 1px),
-            linear-gradient(to bottom, rgba(255, 255, 255, 0.08) 1px, transparent 1px)
+            linear-gradient(to right, rgba(43, 40, 37, 0.06) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(43, 40, 37, 0.06) 1px, transparent 1px)
           `,
-          backgroundSize: '32px 32px',
+          backgroundSize: '36px 36px',
         }}
       />
 
@@ -155,19 +155,15 @@ export default function App() {
           {currentView === 'album' && (
             <div className="space-y-6">
               
-              {/* Filter & Organization Bar */}
-              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-[#161616] p-3 sm:p-4 rounded-xl border border-[#2D2D2D]">
-                <div className="flex items-center gap-2 overflow-x-auto w-full sm:w-auto py-1">
-                  <span className="text-xs font-bold text-[#888888] uppercase tracking-wider flex items-center gap-1 shrink-0 mr-1">
-                    <Filter className="w-3.5 h-3.5" /> Filtrar:
-                  </span>
-
+              {/* Filter Bar (Editorial Paper Style - No Chips) */}
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-3 border-b-2 border-[#2B2825]/15">
+                <div className="flex items-center gap-6 overflow-x-auto w-full sm:w-auto py-1 font-serif text-sm">
                   <button
                     onClick={() => setSelectedCategory('all')}
-                    className={`px-3 py-1 text-xs font-semibold rounded-full transition-all shrink-0 ${
+                    className={`pb-1 transition-all shrink-0 ${
                       selectedCategory === 'all'
-                        ? 'bg-[#B43C28] text-white shadow-2xs'
-                        : 'bg-[#222222] text-[#E5E5E5] hover:bg-[#2A2A2A] border border-[#333333]'
+                        ? 'border-b-2 border-[#8C3B2B] font-bold text-[#8C3B2B]'
+                        : 'text-[#5C5650] hover:text-[#2B2825]'
                     }`}
                   >
                     Todas ({stamps.length})
@@ -179,22 +175,21 @@ export default function App() {
                       <button
                         key={cat.id}
                         onClick={() => setSelectedCategory(cat.name)}
-                        className={`px-3 py-1 text-xs font-semibold rounded-full transition-all shrink-0 flex items-center gap-1.5 ${
+                        className={`pb-1 transition-all shrink-0 flex items-center gap-1.5 ${
                           selectedCategory === cat.name
-                            ? 'bg-[#B43C28] text-white shadow-2xs'
-                            : 'bg-[#222222] text-[#E5E5E5] hover:bg-[#2A2A2A] border border-[#333333]'
+                            ? 'border-b-2 border-[#8C3B2B] font-bold text-[#8C3B2B]'
+                            : 'text-[#5C5650] hover:text-[#2B2825]'
                         }`}
                       >
-                        <span className="w-2 h-2 rounded-full" style={{ backgroundColor: cat.color }} />
                         <span>{cat.name}</span>
-                        <span className="opacity-60 text-[10px]">({count})</span>
+                        <span className="text-xs opacity-60">({count})</span>
                       </button>
                     );
                   })}
                 </div>
 
-                <div className="text-xs text-[#888888] font-mono hidden md:block">
-                  Ordene arrastrando o moviendo las estampillas
+                <div className="text-xs text-[#5C5650] font-serif italic hidden md:block">
+                  Diario Postal de Recuerdos
                 </div>
               </div>
 
@@ -217,19 +212,19 @@ export default function App() {
                 </div>
               ) : (
                 /* Empty Category / Album State */
-                <div className="py-20 flex flex-col items-center justify-center text-center bg-[#161616]/80 rounded-xl border border-dashed border-[#2D2D2D] p-8">
-                  <div className="w-16 h-16 rounded-full bg-[#222222] flex items-center justify-center shadow-xs text-[#B43C28] mb-4 border border-[#333333]">
+                <div className="py-20 flex flex-col items-center justify-center text-center bg-[#FAF8F5] rounded-sm border-2 border-dashed border-[#2B2825]/20 p-8 shadow-2xs">
+                  <div className="w-16 h-16 rounded-full bg-[#F2EBD9] flex items-center justify-center text-[#8C3B2B] mb-4 border border-[#2B2825]/20">
                     <Sparkles className="w-8 h-8" />
                   </div>
-                  <h3 className="text-base font-serif font-bold text-[#E5E5E5] mb-1">
+                  <h3 className="text-lg font-serif font-bold text-[#2B2825] mb-1">
                     No hay estampillas en esta categoría
                   </h3>
-                  <p className="text-xs text-[#888888] max-w-sm mb-6">
-                    Sube una foto para convertirla automáticamente en una hermosa estampilla retro y completar tu álbum.
+                  <p className="text-xs text-[#5C5650] font-serif italic max-w-sm mb-6">
+                    Agrega una nueva fotografía para crear una hermosa estampilla ilustrada vintage.
                   </p>
                   <button
                     onClick={() => setIsCreateOpen(true)}
-                    className="px-5 py-2.5 bg-[#B43C28] text-white text-xs font-semibold rounded-lg hover:bg-red-700 transition-all shadow-sm flex items-center gap-2"
+                    className="px-5 py-2.5 bg-[#8C3B2B] text-[#FAF5E8] text-xs font-serif font-bold rounded-sm hover:bg-[#722F22] transition-all shadow-xs flex items-center gap-2 border border-[#2B2825]"
                   >
                     <Plus className="w-4 h-4" /> Crear Nueva Estampilla
                   </button>

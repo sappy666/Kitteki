@@ -58,30 +58,27 @@ export const StampCard: React.FC<StampCardProps> = ({
       {/* Outer Stamp Frame Container with Serrated Perforated Borders */}
       <div
         onClick={() => onSelect(stamp)}
-        className="relative cursor-pointer transition-all duration-300 transform group-hover:-translate-y-1.5"
+        className="relative cursor-pointer transition-all duration-300 transform group-hover:-translate-y-2"
         style={{
-          filter: 'drop-shadow(0px 8px 18px rgba(0, 0, 0, 0.45))',
+          filter: 'drop-shadow(0px 8px 16px rgba(43, 40, 37, 0.22))',
         }}
       >
         {/* Scalloped Stamp Paper Outer Border Container with Perforated Cutouts */}
         <div
           className="relative p-3.5 sm:p-4 stamp-perforated transition-colors text-[#2B2927]"
           style={{
-            backgroundColor: stamp.frameColor || '#F5F0E6',
+            backgroundColor: stamp.frameColor || '#FAF5E8',
           }}
         >
-          {/* Inner Stamp Boundary Box */}
+          {/* Inner Stamp Boundary Box with Delicate Border */}
           <div className="relative flex flex-col items-center bg-[#FAF8F5] border-2 border-[#2B2927] p-2.5 sm:p-3 w-56 sm:w-64">
             
-            {/* Header: Country & Kanji */}
-            <div className="w-full flex items-center justify-between text-[#2B2927] mb-1.5 px-0.5 border-b border-[#2B2927]/20 pb-1">
-              <span className="font-serif font-bold text-[10px] sm:text-xs tracking-widest text-red-800">
-                {stamp.kanjiTitle ? `日本郵便 • ${stamp.kanjiTitle}` : 'NIPPON • 日本'}
+            {/* Header: Title & Category Text (No Chips) */}
+            <div className="w-full flex items-center justify-between text-[#2B2927] mb-1.5 px-0.5 border-b border-[#2B2B2B]/20 pb-1">
+              <span className="font-serif font-bold text-[10px] sm:text-xs tracking-wider text-[#8C3B2B]">
+                {stamp.kanjiTitle && stamp.kanjiTitle.trim() !== '' ? stamp.kanjiTitle : 'POSTE ITALIANE'}
               </span>
-              <span
-                className="text-[9px] sm:text-[10px] font-medium px-1.5 py-0.2 rounded-full text-white"
-                style={{ backgroundColor: categoryColor }}
-              >
+              <span className="font-serif italic text-[11px] text-[#5C5650]">
                 {stamp.category}
               </span>
             </div>
@@ -100,13 +97,13 @@ export const StampCard: React.FC<StampCardProps> = ({
                   <circle cx="50" cy="50" r="42" fill="none" stroke="currentColor" strokeWidth="2" strokeDasharray="100" />
                   <circle cx="50" cy="50" r="36" fill="none" stroke="currentColor" strokeWidth="1" />
                   <text x="50" y="32" fontSize="8" fontWeight="bold" textAnchor="middle" fill="currentColor" letterSpacing="1">
-                    {(stamp.postmarkCity || 'TOKYO').toUpperCase()}
+                    {(stamp.postmarkCity || 'ROMA').toUpperCase()}
                   </text>
                   <text x="50" y="52" fontSize="7" fontFamily="monospace" textAnchor="middle" fill="currentColor">
                     {stamp.date ? stamp.date.replace(/-/g, '.') : '2026.07.29'}
                   </text>
                   <text x="50" y="68" fontSize="6" fontWeight="bold" textAnchor="middle" fill="currentColor">
-                    • 郵便 •
+                    • POSTE •
                   </text>
                   {/* Cancellation Wave Lines */}
                   <path d="M -20 50 Q 0 42 20 50 T 60 50 T 100 50 T 120 50" fill="none" stroke="currentColor" strokeWidth="1.2" opacity="0.75" />
@@ -144,7 +141,7 @@ export const StampCard: React.FC<StampCardProps> = ({
             {/* Bottom Bar: Denomination & Title */}
             <div className="w-full flex items-end justify-between mt-2 pt-1 border-t border-[#2B2927]/10">
               <span className="font-serif font-extrabold text-base sm:text-lg text-[#C8372D] tracking-tight">
-                {stamp.denomination || '¥80'}
+                {stamp.denomination || ''}
               </span>
               <div className="text-right max-w-[65%]">
                 <h4 className="font-semibold text-xs sm:text-sm text-[#2B2927] truncate leading-tight">
@@ -166,20 +163,20 @@ export const StampCard: React.FC<StampCardProps> = ({
           <button
             type="button"
             onClick={onMoveLeft}
-            className="p-1 text-[#E5E5E5] hover:text-white bg-[#1E1E1E] hover:bg-[#282828] rounded-full shadow-xs transition-all border border-[#2D2D2D]"
+            className="p-1 text-[#2B2825] hover:text-[#8C3B2B] bg-[#FAF5E8] hover:bg-[#FAF8F5] rounded-full shadow-2xs transition-all border border-[#2B2825]/20"
             title="Mover a la izquierda"
           >
             <ChevronLeft className="w-3.5 h-3.5" />
           </button>
         )}
-        <span className="text-[11px] font-mono text-[#888888] px-1">
-          #{stamp.orderIndex + 1}
+        <span className="text-[11px] font-serif italic text-[#5C5650] px-1">
+          N° {stamp.orderIndex + 1}
         </span>
         {!isLast && onMoveRight && (
           <button
             type="button"
             onClick={onMoveRight}
-            className="p-1 text-[#E5E5E5] hover:text-white bg-[#1E1E1E] hover:bg-[#282828] rounded-full shadow-xs transition-all border border-[#2D2D2D]"
+            className="p-1 text-[#2B2825] hover:text-[#8C3B2B] bg-[#FAF5E8] hover:bg-[#FAF8F5] rounded-full shadow-2xs transition-all border border-[#2B2825]/20"
             title="Mover a la derecha"
           >
             <ChevronRight className="w-3.5 h-3.5" />

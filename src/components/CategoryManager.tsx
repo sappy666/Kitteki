@@ -79,30 +79,30 @@ export const CategoryManager: React.FC<CategoryManagerProps> = ({
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-xs overflow-y-auto">
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs overflow-y-auto">
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.95 }}
-          className="relative w-full max-w-xl bg-[#161616] text-[#E5E5E5] rounded-xl shadow-2xl border border-[#2D2D2D] overflow-hidden my-auto p-6"
+          className="relative w-full max-w-xl bg-[#FAF5E8] text-[#2B2825] rounded-sm shadow-2xl border-2 border-[#2B2825] overflow-hidden my-auto p-6 sm:p-8 font-serif"
         >
           {/* Header */}
-          <div className="flex items-center justify-between pb-4 border-b border-[#2D2D2D] mb-5">
-            <h3 className="text-base font-serif font-bold text-[#E5E5E5] flex items-center gap-2">
-              <Tag className="w-4 h-4 text-[#B43C28]" />
-              <span>Gestor de Categorías (分類)</span>
+          <div className="flex items-center justify-between pb-4 border-b-2 border-[#2B2825]/15 mb-5">
+            <h3 className="text-lg font-serif font-bold text-[#2B2825] flex items-center gap-2">
+              <Tag className="w-4 h-4 text-[#8C3B2B]" />
+              <span>Gestor de Categorías</span>
             </h3>
             <button
               onClick={onClose}
-              className="p-1 rounded-full hover:bg-[#282828] text-[#888888] hover:text-[#E5E5E5] transition-colors"
+              className="p-1 rounded-full hover:bg-[#F2EBD9] text-[#5C5650] hover:text-[#2B2825] transition-colors"
             >
               <X className="w-5 h-5" />
             </button>
           </div>
 
           {/* Add Category Form */}
-          <form onSubmit={handleAddCategory} className="mb-6 p-4 bg-[#222222] rounded-lg border border-[#333333]">
-            <label className="block text-xs font-bold uppercase tracking-wider text-[#888888] mb-2">
+          <form onSubmit={handleAddCategory} className="mb-6 p-4 bg-[#FAF8F5] rounded-sm border border-[#2B2825]/20">
+            <label className="block text-xs font-bold uppercase tracking-wider text-[#5C5650] mb-2">
               Nueva Categoría
             </label>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 mb-3">
@@ -112,14 +112,14 @@ export const CategoryManager: React.FC<CategoryManagerProps> = ({
                 onChange={(e) => setNewName(e.target.value)}
                 placeholder="Nombre (ej. Mascotas)"
                 required
-                className="px-3 py-1.5 text-xs bg-[#161616] border border-[#333333] text-[#E5E5E5] placeholder-[#666666] rounded-md focus:outline-none focus:border-[#B43C28]"
+                className="px-3 py-1.5 text-xs bg-[#FAF5E8] border border-[#2B2825]/30 text-[#2B2825] placeholder-[#888888] rounded-sm focus:outline-none focus:border-[#8C3B2B]"
               />
               <input
                 type="text"
                 value={newKanji}
                 onChange={(e) => setNewKanji(e.target.value)}
-                placeholder="Kanji (ej. ペット)"
-                className="px-3 py-1.5 text-xs bg-[#161616] border border-[#333333] text-[#E5E5E5] placeholder-[#666666] rounded-md font-serif focus:outline-none focus:border-[#B43C28]"
+                placeholder="Subtítulo (ej. PETS)"
+                className="px-3 py-1.5 text-xs bg-[#FAF5E8] border border-[#2B2825]/30 text-[#2B2825] placeholder-[#888888] rounded-sm font-serif focus:outline-none focus:border-[#8C3B2B]"
               />
               <div className="flex items-center gap-1.5 overflow-x-auto py-1">
                 {CATEGORY_COLOR_PALETTE.slice(0, 5).map((col) => (
@@ -128,7 +128,7 @@ export const CategoryManager: React.FC<CategoryManagerProps> = ({
                     type="button"
                     onClick={() => setNewColor(col)}
                     className={`w-5 h-5 rounded-full transition-transform ${
-                      newColor === col ? 'scale-125 ring-2 ring-white' : 'opacity-70 hover:opacity-100'
+                      newColor === col ? 'scale-125 ring-2 ring-[#8C3B2B]' : 'opacity-70 hover:opacity-100'
                     }`}
                     style={{ backgroundColor: col }}
                   />
@@ -137,7 +137,7 @@ export const CategoryManager: React.FC<CategoryManagerProps> = ({
             </div>
             <button
               type="submit"
-              className="w-full py-2 bg-[#B43C28] text-white text-xs font-semibold rounded-md hover:bg-red-700 transition-all flex items-center justify-center gap-1"
+              className="w-full py-2 bg-[#8C3B2B] text-[#FAF5E8] text-xs font-bold rounded-sm hover:bg-[#722F22] transition-all flex items-center justify-center gap-1 border border-[#2B2825]"
             >
               <Plus className="w-3.5 h-3.5" /> Agregar Categoría
             </button>
@@ -145,20 +145,20 @@ export const CategoryManager: React.FC<CategoryManagerProps> = ({
 
           {/* Existing Categories List */}
           <div className="space-y-2 max-h-60 overflow-y-auto pr-1">
-            <label className="block text-xs font-bold uppercase tracking-wider text-[#888888] mb-2">
+            <label className="block text-xs font-bold uppercase tracking-wider text-[#5C5650] mb-2">
               Categorías Actuales ({catList.length})
             </label>
             {catList.map((cat) => (
               <div
                 key={cat.id}
-                className="flex items-center justify-between p-3 bg-[#222222] rounded-lg border border-[#333333] shadow-2xs"
+                className="flex items-center justify-between p-3 bg-[#FAF8F5] rounded-sm border border-[#2B2825]/20"
               >
                 <div className="flex items-center gap-3">
                   <span className="w-3.5 h-3.5 rounded-full shrink-0" style={{ backgroundColor: cat.color }} />
                   <div>
-                    <span className="text-xs font-semibold text-[#E5E5E5]">{cat.name}</span>
+                    <span className="text-xs font-bold text-[#2B2825]">{cat.name}</span>
                     {cat.kanjiName && (
-                      <span className="text-[10px] text-[#888888] font-serif ml-2">({cat.kanjiName})</span>
+                      <span className="text-[11px] text-[#5C5650] font-serif italic ml-2">({cat.kanjiName})</span>
                     )}
                   </div>
                 </div>
@@ -166,7 +166,7 @@ export const CategoryManager: React.FC<CategoryManagerProps> = ({
                 <button
                   type="button"
                   onClick={() => handleDeleteCategory(cat.id)}
-                  className="p-1 text-[#888888] hover:text-red-400 transition-colors"
+                  className="p-1 text-[#5C5650] hover:text-red-700 transition-colors"
                   title="Eliminar Categoría"
                 >
                   <Trash2 className="w-4 h-4" />
@@ -175,11 +175,11 @@ export const CategoryManager: React.FC<CategoryManagerProps> = ({
             ))}
           </div>
 
-          <div className="mt-6 pt-4 border-t border-[#2D2D2D] flex justify-end">
+          <div className="mt-6 pt-4 border-t border-[#2B2825]/15 flex justify-end">
             <button
               type="button"
               onClick={onClose}
-              className="px-5 py-2 bg-[#B43C28] text-white text-xs font-semibold rounded-md hover:bg-red-700 transition-all"
+              className="px-5 py-2 bg-[#8C3B2B] text-[#FAF5E8] text-xs font-bold rounded-sm hover:bg-[#722F22] transition-all border border-[#2B2825]"
             >
               Listo
             </button>
