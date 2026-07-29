@@ -1,0 +1,191 @@
+import React from 'react';
+import { motion } from 'motion/react';
+import { StampItem } from '../types';
+import { Download, ChevronLeft, ChevronRight, Eye, Edit3 } from 'lucide-react';
+
+interface StampCardProps {
+  stamp: StampItem;
+  categoryColor?: string;
+  onSelect: (stamp: StampItem) => void;
+  onDownload: (stamp: StampItem) => void;
+  onMoveLeft?: () => void;
+  onMoveRight?: () => void;
+  isFirst?: boolean;
+  isLast?: boolean;
+}
+
+export const StampCard: React.FC<StampCardProps> = ({
+  stamp,
+  categoryColor = '#3b82f6',
+  onSelect,
+  onDownload,
+  onMoveLeft,
+  onMoveRight,
+  isFirst,
+  isLast,
+}) => {
+  // CSS Filter simulation classes for interactive live UI preview
+  const getFilterStyleClass = () => {
+    switch (stamp.filterStyle) {
+      case 'sepia':
+        return 'sepia-[0.75] contrast-[1.1] brightness-[0.95] hue-rotate-[-10deg]';
+      case 'monochrome':
+        return 'grayscale contrast-[1.3] brightness-[0.9]';
+      case 'halftone':
+        return 'contrast-[1.4] brightness-[0.95] saturate-[0.8] blur-[0.3px]';
+      case 'risograph':
+        return 'contrast-[1.25] saturate-[1.6] hue-rotate-[-25deg]';
+      case 'ukiyoe':
+        return 'saturate-[1.8] contrast-[1.2] brightness-[0.95]';
+      case 'watercolor':
+        return 'contrast-[0.95] saturate-[1.3] brightness-[1.05] blur-[0.2px]';
+      case 'retroGrain':
+        return 'sepia-[0.3] contrast-[1.15] saturate-[1.1]';
+      default:
+        return 'sepia-[0.3]';
+    }
+  };
+
+  return (
+    <motion.div
+      layout
+      initial={{ opacity: 0, scale: 0.92, y: 15 }}
+      animate={{ opacity: 1, scale: 1, y: 0 }}
+      exit={{ opacity: 0, scale: 0.9 }}
+      transition={{ duration: 0.35, ease: 'easeOut' }}
+      className="group relative flex flex-col items-center select-none"
+    >
+      {/* Outer Stamp Frame Container with Serrated Perforated Borders */}
+      <div
+        onClick={() => onSelect(stamp)}
+        className="relative cursor-pointer transition-all duration-300 transform group-hover:-translate-y-1.5"
+        style={{
+          filter: 'drop-shadow(0px 8px 18px rgba(0, 0, 0, 0.45))',
+        }}
+      >
+        {/* Scalloped Stamp Paper Outer Border Container with Perforated Cutouts */}
+        <div
+          className="relative p-3.5 sm:p-4 stamp-perforated transition-colors text-[#2B2927]"
+          style={{
+            backgroundColor: stamp.frameColor || '#F5F0E6',
+          }}
+        >
+          {/* Inner Stamp Boundary Box */}
+          <div className="relative flex flex-col items-center bg-[#FAF8F5] border-2 border-[#2B2927] p-2.5 sm:p-3 w-56 sm:w-64">
+            
+            {/* Header: Country & Kanji */}
+            <div className="w-full flex items-center justify-between text-[#2B2927] mb-1.5 px-0.5 border-b border-[#2B2927]/20 pb-1">
+              <span className="font-serif font-bold text-[10px] sm:text-xs tracking-widest text-red-800">
+                {stamp.kanjiTitle ? `日本郵便 • ${stamp.kanjiTitle}` : 'NIPPON • 日本'}
+              </span>
+              <span
+                className="text-[9px] sm:text-[10px] font-medium px-1.5 py-0.2 rounded-full text-white"
+                style={{ backgroundColor: categoryColor }}
+              >
+                {stamp.category}
+              </span>
+            </div>
+
+            {/* Photo Container */}
+            <div className="relative w-full aspect-[4/5] bg-neutral-200 border border-[#2B2927] overflow-hidden group/img">
+              <img
+                src={stamp.imageUrl}
+                alt={stamp.title}
+                className={`w-full h-full object-cover transition-transform duration-500 group-hover/img:scale-105 ${getFilterStyleClass()}`}
+              />
+
+              {/* Rubber Postal Cancellation Stamp Seal (Overlay) */}
+              <div className="absolute -bottom-3 -right-3 w-20 h-20 sm:w-24 sm:h-24 pointer-events-none opacity-85 rotate-[-12deg]">
+                <svg viewBox="0 0 100 100" className="w-full h-full text-[#1E293B]">
+                  <circle cx="50" cy="50" r="42" fill="none" stroke="currentColor" strokeWidth="2" strokeDasharray="100" />
+                  <circle cx="50" cy="50" r="36" fill="none" stroke="currentColor" strokeWidth="1" />
+                  <text x="50" y="32" fontSize="8" fontWeight="bold" textAnchor="middle" fill="currentColor" letterSpacing="1">
+                    {(stamp.postmarkCity || 'TOKYO').toUpperCase()}
+                  </text>
+                  <text x="50" y="52" fontSize="7" fontFamily="monospace" textAnchor="middle" fill="currentColor">
+                    {stamp.date ? stamp.date.replace(/-/g, '.') : '2026.07.29'}
+                  </text>
+                  <text x="50" y="68" fontSize="6" fontWeight="bold" textAnchor="middle" fill="currentColor">
+                    • 郵便 •
+                  </text>
+                  {/* Cancellation Wave Lines */}
+                  <path d="M -20 50 Q 0 42 20 50 T 60 50 T 100 50 T 120 50" fill="none" stroke="currentColor" strokeWidth="1.2" opacity="0.75" />
+                  <path d="M -20 56 Q 0 48 20 56 T 60 56 T 100 56 T 120 56" fill="none" stroke="currentColor" strokeWidth="1.2" opacity="0.75" />
+                </svg>
+              </div>
+
+              {/* Quick Hover Action Overlay */}
+              <div className="absolute inset-0 bg-[#2B2927]/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onSelect(stamp);
+                  }}
+                  className="p-2 bg-white/90 text-[#2B2927] rounded-full hover:bg-white transition-transform hover:scale-110 shadow-md"
+                  title="Editar Estampilla"
+                >
+                  <Edit3 className="w-4 h-4" />
+                </button>
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onDownload(stamp);
+                  }}
+                  className="p-2 bg-[#C8372D] text-white rounded-full hover:bg-red-700 transition-transform hover:scale-110 shadow-md"
+                  title="Descargar HD"
+                >
+                  <Download className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+
+            {/* Bottom Bar: Denomination & Title */}
+            <div className="w-full flex items-end justify-between mt-2 pt-1 border-t border-[#2B2927]/10">
+              <span className="font-serif font-extrabold text-base sm:text-lg text-[#C8372D] tracking-tight">
+                {stamp.denomination || '¥80'}
+              </span>
+              <div className="text-right max-w-[65%]">
+                <h4 className="font-semibold text-xs sm:text-sm text-[#2B2927] truncate leading-tight">
+                  {stamp.title}
+                </h4>
+                <p className="text-[10px] text-neutral-500 font-mono mt-0.5">
+                  {stamp.date}
+                </p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      {/* Visual Reordering Controls */}
+      <div className="flex items-center gap-1.5 mt-2 opacity-60 group-hover:opacity-100 transition-opacity">
+        {!isFirst && onMoveLeft && (
+          <button
+            type="button"
+            onClick={onMoveLeft}
+            className="p-1 text-[#E5E5E5] hover:text-white bg-[#1E1E1E] hover:bg-[#282828] rounded-full shadow-xs transition-all border border-[#2D2D2D]"
+            title="Mover a la izquierda"
+          >
+            <ChevronLeft className="w-3.5 h-3.5" />
+          </button>
+        )}
+        <span className="text-[11px] font-mono text-[#888888] px-1">
+          #{stamp.orderIndex + 1}
+        </span>
+        {!isLast && onMoveRight && (
+          <button
+            type="button"
+            onClick={onMoveRight}
+            className="p-1 text-[#E5E5E5] hover:text-white bg-[#1E1E1E] hover:bg-[#282828] rounded-full shadow-xs transition-all border border-[#2D2D2D]"
+            title="Mover a la derecha"
+          >
+            <ChevronRight className="w-3.5 h-3.5" />
+          </button>
+        )}
+      </div>
+    </motion.div>
+  );
+};

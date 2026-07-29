@@ -1,0 +1,6 @@
+{
+  "name": "Diario de Estampillas Digitales",
+  "description": "Convierte tus fotos en estampillas digitales retro estilo japonés, organiza recuerdos diarios en un álbum mensual y sincroniza en la nube.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
